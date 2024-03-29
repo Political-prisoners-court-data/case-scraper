@@ -1,0 +1,6 @@
+name: case-scraper
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - scrapy==2.11.1
