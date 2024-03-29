@@ -14,7 +14,7 @@ NEWSPIDER_MODULE = "demhack8.spiders"
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = "demhack8 (+http://www.yourdomain.com)"
+USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.3"
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
@@ -91,3 +91,14 @@ ROBOTSTXT_OBEY = True
 REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 FEED_EXPORT_ENCODING = "utf-8"
+
+FEEDS = {
+    "%(name)s-people-%(time)s.jsonl": {
+        "format": "jsonl",
+        "item_classes": ["demhack8.items.RfmPersonItem"]
+    },
+    "%(name)s-orgs-%(time)s.jsonl": {
+        "format": "jsonl",
+        "item_classes": ["demhack8.items.RfmOrgItem"]
+    }
+}
