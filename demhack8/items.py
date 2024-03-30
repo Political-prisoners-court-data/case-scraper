@@ -1,11 +1,12 @@
 from dataclasses import dataclass
 from datetime import date
-from typing import Optional
+from typing import Optional, ClassVar
 
 
 @dataclass
-class RfmPersonItem():
-    name: str
+class RfmPersonItem:
+    table: ClassVar[str] = "rfm_person"
+    full_name: str
     aliases: Optional[list[str]]
     is_terr: bool
     birth_date: Optional[date]
@@ -13,5 +14,5 @@ class RfmPersonItem():
 
 
 @dataclass
-class RfmPersonUnparsedItem():
+class RfmPersonUnparsedItem:
     text: str

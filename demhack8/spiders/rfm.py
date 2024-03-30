@@ -17,9 +17,9 @@ class RfmSpider(Spider):
         for person in response.css('#russianFL .terrorist-list li::text'):
             record = person.get()
             remainder = record.rstrip('; ')
-            name, _, remainder = remainder.partition(',')
-            is_terr = name.strip().endswith('*')
-            name = name.strip().rstrip('*').strip()
+            full_name, _, remainder = remainder.partition(',')
+            is_terr = full_name.strip().endswith('*')
+            full_name = full_name.strip().rstrip('*').strip()
             val, _, remainder = remainder.partition(',')
             if val.strip().startswith('(') and val.strip().endswith(')'):
                 aliases = [alias.strip() for alias in val[1:-1].split(',')]
@@ -37,4 +37,4 @@ class RfmSpider(Spider):
             address = remainder.strip(', ')
             if address == '':
                 address = None
-            yield RfmPersonItem(name, aliases, is_terr, birth_date, address)
+            yield RfmPersonItem(full_name, aliases, is_terr, birth_date, address)

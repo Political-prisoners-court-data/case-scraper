@@ -13,6 +13,7 @@ BOT_NAME = "demhack8"
 SPIDER_MODULES = ["demhack8.spiders"]
 NEWSPIDER_MODULE = "demhack8.spiders"
 
+SQL_ENGINE_URI = "postgresql://scraper@localhost:5432/postgres"
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.3"
@@ -63,9 +64,9 @@ ROBOTSTXT_OBEY = True
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    "demhack8.pipelines.Demhack8Pipeline": 300,
-#}
+ITEM_PIPELINES = {
+   "demhack8.pipelines.SqlAlchemyPipeline": 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
