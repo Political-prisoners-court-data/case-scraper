@@ -96,9 +96,5 @@ FEEDS = {
     "%(name)s-people-%(time)s.jsonl": {
         "format": "jsonl",
         "item_classes": ["demhack8.items.RfmPersonItem"]
-    },
-    "%(name)s-orgs-%(time)s.jsonl": {
-        "format": "jsonl",
-        "item_classes": ["demhack8.items.RfmOrgItem"]
     }
 }
