@@ -6,6 +6,7 @@
 #     https://docs.scrapy.org/en/latest/topics/settings.html
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
+from demhack8.items import RfmPersonItem, RfmPersonUnparsedItem
 
 BOT_NAME = "demhack8"
 
@@ -95,6 +96,10 @@ FEED_EXPORT_ENCODING = "utf-8"
 FEEDS = {
     "%(name)s-people-%(time)s.jsonl": {
         "format": "jsonl",
-        "item_classes": ["demhack8.items.RfmPersonItem"]
+        "item_classes": [RfmPersonItem]
+    },
+    "%(name)s-unparsed-%(time)s.jsonl": {
+        "format": "jsonl",
+        "item_classes": [RfmPersonUnparsedItem]
     }
 }
