@@ -1,3 +1,4 @@
+import re
 from collections.abc import Iterable
 from datetime import datetime
 from typing import Any
@@ -12,14 +13,18 @@ class RfmSpider(Spider):
     name = 'rfm'
     allowed_domains = ['www.fedsfm.ru']
     start_urls = ['https://www.fedsfm.ru/documents/terrorists-catalog-portal-act']
+    re_number = re.compile(r'^\d+\.')
 
     def parse(self, response: Response, **kwargs: Any) -> Iterable[RfmPersonItem]:
         for person in response.css('#russianFL .terrorist-list li::text'):
             record = person.get()
             remainder = record.rstrip('; ')
             full_name, _, remainder = remainder.partition(',')
-            is_terr = full_name.strip().endswith('*')
-            full_name = full_name.strip().rstrip('*').strip()
+            full_name = full_name.strip()
+            is_terr = full_name.endswith('*')
+            if is_terr:
+                full_name = full_name[:-1]
+            full_name = self.re_number.sub('', full_name).strip()
             val, _, remainder = remainder.partition(',')
             val = val.strip()
             if val.startswith('(') and val.endswith(')'):
