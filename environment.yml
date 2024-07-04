@@ -4,5 +4,9 @@ channels:
   - nodefaults
 dependencies:
   - scrapy
+  - pandas
   - sqlalchemy
   - psycopg2
+  - pip
+  - pip:
+      - pyairtable
