@@ -22,36 +22,38 @@ class PersonEventGenerator:
             connection.commit()
 
         field_names = [self.__to_camel_case(field.name) for field in fields(RfmPersonItem)]
-        field_names.append('action')
-        field_names.append('date')
-
-        added_list = [dict(zip(field_names, (tuple(row_vals._tuple()) + ('added', datetime.now(pytz.UTC),)))) for
-                      row_vals in added_result]
-        changed_list = []
-        removed_list = [dict(zip(field_names, (tuple(row_vals._tuple()) + ('removed', datetime.now(pytz.UTC),)))) for
-                        row_vals in removed_result]
+        result_list = []
 
         for changed_row_mapping in changed_result.mappings():
-            changed_dict_row = {self.__to_camel_case(key): val for (key, val) in changed_row_mapping.items()}
-            changed_dict_row['birthDate'] = datetime.combine(changed_dict_row['birthDate'], datetime.min.time())
-            changed_dict_row['action'] = 'changed'
-            changed_dict_row['date'] = datetime.now(pytz.UTC)
-            changed_list.append(changed_dict_row)
+            changed_event = {self.__to_camel_case(key): val for (key, val) in changed_row_mapping.items() if val}
+            self.__fullfill_common_fields(changed_event, 'changed')
+            result_list.append(changed_event)
 
-        for person_dict in added_list:
-            person_dict['birthDate'] = datetime.combine(person_dict['birthDate'], datetime.min.time())
+        for row_vals in added_result:
+            add_event = dict(zip(field_names, tuple(row_vals._tuple())))
+            add_event = {k: v for (k, v) in add_event.items() if v}
+            self.__fullfill_common_fields(add_event, 'added')
+            result_list.append(add_event)
 
-        for person_dict in removed_list:
-            person_dict['birthDate'] = datetime.combine(person_dict['birthDate'], datetime.min.time())
+        for row_vals in removed_result:
+            removed_event = dict(zip(field_names, tuple(row_vals._tuple())))
+            removed_event = {k: v for (k, v) in removed_event.items() if v}
+            self.__fullfill_common_fields(removed_event, 'removed')
+            result_list.append(removed_event)
 
         db = self._mongo_client['events']
         collection = db['events']
 
-        collection.insert_many(added_list, ordered=False)
-        collection.insert_many(changed_list, ordered=False)
-        collection.insert_many(removed_list, ordered=False)
+        if result_list:
+            collection.insert_many(result_list, ordered=False)
 
         self._mongo_client.close()
+
+    def __fullfill_common_fields(self, event: dict, action: str):
+        if event['birthDate']:
+            event['birthDate'] = datetime.combine(event['birthDate'], datetime.min.time())
+        event['action'] = action
+        event['date'] = datetime.now(pytz.UTC)
 
     @staticmethod
     def __to_camel_case(str):
