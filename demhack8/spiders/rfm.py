@@ -34,7 +34,7 @@ class RfmSpider(Spider):
                 aliases = None
             val = val.strip()
             if val == '':
-                birth_date = None
+                birth_date = datetime.min
             else:
                 try:
                     birth_date = datetime.strptime(val, '%d.%m.%Y г.р.').date()

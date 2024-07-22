@@ -1,5 +1,5 @@
 from dataclasses import fields
-from datetime import datetime
+from datetime import datetime, time
 
 import pytz
 from pymongo import MongoClient
@@ -51,7 +51,7 @@ class PersonEventGenerator:
 
     def __fullfill_common_fields(self, event: dict, action: str):
         if event['birthDate']:
-            event['birthDate'] = datetime.combine(event['birthDate'], datetime.min.time())
+            event['birthDate'] = datetime.combine(event['birthDate'], time.min)
         event['action'] = action
         event['date'] = datetime.now(pytz.UTC)
 
