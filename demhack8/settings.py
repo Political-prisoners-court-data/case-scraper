@@ -104,3 +104,4 @@ FEEDS = {
         "item_classes": [RfmPersonUnparsedItem]
     }
 }
+LOG_LEVEL = 'INFO'
