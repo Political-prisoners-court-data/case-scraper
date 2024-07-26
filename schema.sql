@@ -44,40 +44,6 @@ CREATE TABLE out.rfm_person
     PRIMARY KEY (full_name, birth_date)
 );
 
--- CREATE TABLE out.rfm_added AS SELECT * FROM db.rfm_added;
-CREATE TABLE out.rfm_added
-(
-    full_name  TEXT,
-    aliases    text[],
-    is_terr    boolean NOT NULL,
-    birth_date date,
-    address    text
-);
-
--- CREATE TABLE out.rfm_removed AS SELECT * FROM db.rfm_removed;
-create table out.rfm_removed
-(
-    full_name  TEXT,
-    aliases    text[],
-    is_terr    boolean NOT NULL,
-    birth_date date,
-    address    text
-);
-
--- CREATE TABLE out.rfm_changed AS SELECT * FROM db.rfm_changed;
-create table out.rfm_changed
-(
-    full_name   text,
-    birth_date  date,
-    old_is_terr boolean,
-    new_is_terr boolean,
-    old_aliases text[],
-    new_aliases text[],
-    old_address text,
-    new_address text
-);
-
-
 CREATE OR REPLACE VIEW db.rfm_added AS
 SELECT new.full_name,
        new.aliases,
