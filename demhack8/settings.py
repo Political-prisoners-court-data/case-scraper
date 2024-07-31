@@ -92,16 +92,6 @@ ITEM_PIPELINES = {
 # Set settings whose default value is deprecated to a future-proof value
 REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
-FEED_EXPORT_ENCODING = "utf-8"
 
-FEEDS = {
-    "%(name)s-people-%(time)s.jsonl": {
-        "format": "jsonl",
-        "item_classes": [RfmPersonItem]
-    },
-    "%(name)s-unparsed-%(time)s.jsonl": {
-        "format": "jsonl",
-        "item_classes": [RfmPersonUnparsedItem]
-    }
-}
 LOG_LEVEL = 'INFO'
+CLOSESPIDER_ERRORCOUNT = 1
