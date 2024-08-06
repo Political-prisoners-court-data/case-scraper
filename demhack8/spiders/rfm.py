@@ -28,7 +28,7 @@ class RfmSpider(Spider):
             val, _, remainder = remainder.partition(',')
             val = val.strip()
             if val.startswith('(') and val.endswith(')'):
-                aliases = [alias.strip() for alias in val[1:-1].split(',')]
+                aliases = [alias.strip() for alias in val[1:-1].split(';')]
                 val, _, remainder = remainder.partition(',')
             else:
                 aliases = None
