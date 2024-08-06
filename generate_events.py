@@ -41,7 +41,7 @@ class PersonEventGenerator:
             self.__fullfill_common_fields(removed_event, 'removed')
             result_list.append(removed_event)
 
-        db = self.__mongo_client['events']
+        db = self.__mongo_client['eventsDb']
         collection = db['events']
 
         if result_list:
