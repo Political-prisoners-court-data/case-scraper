@@ -50,8 +50,7 @@ class PersonEventGenerator:
         self.__mongo_client.close()
 
     def __fullfill_common_fields(self, event: dict, action: str):
-        if event['birthDate']:
-            event['birthDate'] = datetime.combine(event['birthDate'], time.min)
+        event['birthDate'] = datetime.combine(event['birthDate'], time.min)
         event['action'] = action
         event['date'] = datetime.now(pytz.UTC)
 
