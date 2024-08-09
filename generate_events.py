@@ -27,6 +27,25 @@ class PersonEventGenerator:
                              for (key, val) in changed_row_mapping.items()
                              if val is not None}
             self.__fullfill_common_fields(changed_event, 'changed')
+
+            if ('oldIsTerr' in changed_event and 'newIsTerr' in changed_event
+                    and changed_event['oldIsTerr'] == changed_event['newIsTerr']):
+
+                del changed_event['oldIsTerr']
+                del changed_event['newIsTerr']
+
+            if ('oldAliases' in changed_event and 'newAliases' in changed_event
+                    and sorted(changed_event['oldAliases']) == sorted(changed_event['newAliases'])):
+
+                del changed_event['oldAliases']
+                del changed_event['newAliases']
+
+            if ('oldAddress' in changed_event and 'newAddress' in changed_event
+                    and changed_event['oldAddress'] == changed_event['newAddress']):
+
+                del changed_event['oldAddress']
+                del changed_event['newAddress']
+
             result_list.append(changed_event)
 
         for row_vals in added_result.tuples():
@@ -63,6 +82,6 @@ class PersonEventGenerator:
 if __name__ == '__main__':
     engine = create_engine('postgresql://db@localhost:5432/postgres')
     with engine.begin() as connection:
-        gen = PersonEventGenerator(connection, MongoClient())
+        gen = PersonEventGenerator(connection, MongoClient(host=['localhost:47017'], username='app', password='app'))
         gen.generate()
         connection.commit()
